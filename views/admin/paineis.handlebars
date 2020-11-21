@@ -10,6 +10,9 @@
             <h5>Ordem pedido: {{ordem}}</h5>
             <p>Descrição: {{descricao}}</p>
             <small>Data: {{dt_pedido}}</small>
+            <br>
+            <a href="/admin/paineis/edit/{{_id}}"><button class="btn btn-primary">Editar Painel</button></a>
+            <a href="/admin/paineis/deletar/{{_id}}"><button class="btn btn-danger">Deletar</button></a>
         </div>
     </div>
 {{else}}

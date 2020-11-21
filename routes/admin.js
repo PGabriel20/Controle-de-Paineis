@@ -49,6 +49,18 @@ router.post('/paineis/novo',(req,res)=>{
     })
 })
 
+
+router.get('/paineis/deletar/:id',(req,res)=>{
+    Painel.remove({_id: req.params.id}).then(()=>{
+        req.flash('success_msg','Painel deletado com sucesso!')
+        res.redirect('/admin/paineis')
+    }).catch((err)=>{
+        req.flash('error_msg','Houve um erro ao deletar o painel!')
+        res.redirect('/admin')
+    })
+})
+
+
 //Cadastrar cliente
 router.get('/clientes/novo',(req,res)=>{
     //Inserindo dados de cliente no banco, para aparecer no formulario de painel
