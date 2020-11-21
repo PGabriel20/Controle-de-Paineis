@@ -11,6 +11,7 @@ router.get('/',(req,res)=>{
     res.render('admin/index')
 })
 
+//Lista paineis
 router.get('/paineis',(req,res)=>{
     Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
         res.render('admin/paineis',{paineis: paineis})
@@ -43,7 +44,7 @@ router.post('/paineis/novo',(req,res)=>{
     new Painel(novoPainel).save().then(()=>{
         console.log('Painel salvo com sucesso!')
         req.flash('success_msg', "Painel criado com sucesso!")
-        res.redirect('/admin')
+        res.redirect('/admin/paineis')
     }).catch((err)=>{
         console.log('Erro ao criar painel!')
     })
@@ -67,7 +68,29 @@ router.get('/paineis/edit/:id',(req,res)=>{
 
 //Salva dados do formulario de edição
 router.post('/paineis/edit',(req,res)=>{
-    Postagem.findOne()
+
+    Painel.findOne({_id: req.body.id}).then((painel)=>{
+        
+        painel.codigo = req.body.codigo,
+        painel.cliente = req.body.cliente,
+        painel.descricao = req.body.descricao,
+        painel.montador = req.body.montador,
+        painel.num_pedido = req.body.num_pedido,
+        painel.ordem = req.body.ordem
+
+        painel.save().then(()=>{
+            req.flash('success_msg','Painel salvo co sucesso')
+            res.redirect('/admin/paineis')
+        }).catch((err)=>{
+            req.flash('error_msg','Houve um erro interno!')
+            res.redirect('/admin/paineis')
+        })
+
+    }).catch((err)=>{
+        console.log(err)
+        req.flash('error_msg','Houve um erro ao salvar o painel!')
+        res.redirect('/admin/paineis')
+    })
 })
 
 

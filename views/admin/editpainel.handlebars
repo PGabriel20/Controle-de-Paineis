@@ -2,7 +2,7 @@
 <div class="card">
     <div class="card-body">
         <form action="/admin/paineis/edit" method="POST" class="control-form">
-            <input type="hidden" name="id" value="{{postagem._id}}">
+            <input type="hidden" name="id" value="{{painel._id}}">
             <label for="codigo" class="mt-2">Código: </label>
                 <input type="text" id="codigo" name="codigo" required value="{{painel.codigo}}" class="form-control">
             <label for="cliente" class="mt-2">Cliente: </label>
@@ -32,6 +32,6 @@
             
             <button type="submit" class="btn btn-success mt-4">Salvar mudanças</button>
         </form>
-        <a href="/admin"><button class="btn btn-danger mt-4">Voltar</button></a>
+        <a href="/admin/paineis"><button class="btn btn-danger mt-4">Voltar</button></a>
     </div>
 </div>
