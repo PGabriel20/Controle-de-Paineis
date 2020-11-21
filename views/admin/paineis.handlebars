@@ -1,2 +1,17 @@
 <h2>Paineis atualmente cadastrados:</h2>
 <a href="/admin/paineis/add"><button class="btn btn-success">Novo painel</button></a>
+{{#each paineis}}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5>Codigo:{{codigo}}</h4>
+            <h5>Cliente: {{cliente.nome}}</h5>
+            <h5>Montador: {{montador}}</h5>
+            <h5>Nº pedido: {{num_pedido}}</h5>
+            <h5>Ordem pedido: {{ordem}}</h5>
+            <p>Descrição: {{descricao}}</p>
+            <small>Data: {{dt_pedido}}</small>
+        </div>
+    </div>
+{{else}}
+<p>Nenhum painel registrado!</p>
+{{/each}}

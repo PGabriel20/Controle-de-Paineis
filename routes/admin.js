@@ -12,14 +12,19 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/paineis',(req,res)=>{
-    res.render('admin/paineis')
+    Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
+        res.render('admin/paineis',{paineis: paineis})
+    }).catch((err)=>{
+        req.flash("error_msg", "Houve um erro ao carregar paineis!")
+        res.redirect('/admin')
+    })
 })
 
 router.get('/paineis/add',(req,res)=>{
     Cliente.find().lean().then((clientes)=>{
         res.render('admin/addpainel',{clientes: clientes})
     }).catch((err)=>{
-        req.flash("error_msg", "houve um erro ao carregar o formulario")
+        req.flash("error_msg", "Houve um erro ao carregar o formulario!")
         res.redirect('/admin')
     })
 })
@@ -30,7 +35,7 @@ router.post('/paineis/novo',(req,res)=>{
         codigo: req.body.codigo,
         cliente: req.body.cliente,
         descricao: req.body.descricao,
-        montador: req.body.cliente,
+        montador: req.body.montador,
         num_pedido: req.body.num_pedido,
         ordem: req.body.ordem
     }
