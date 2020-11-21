@@ -49,6 +49,10 @@ router.post('/paineis/novo',(req,res)=>{
     })
 })
 
+router.get('/paineis/edit',(req,res)=>{
+    res.render('admin/editpainel')
+})
+
 
 router.get('/paineis/deletar/:id',(req,res)=>{
     Painel.deleteOne({_id: req.params.id}).then(()=>{

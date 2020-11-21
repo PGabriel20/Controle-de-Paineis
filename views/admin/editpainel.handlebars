@@ -1,0 +1,36 @@
+<h2>Editar Painel:</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/" method="POST" class="control-form">
+            <label for="codigo" class="mt-2">Código: </label>
+                <input type="text" id="codigo" name="codigo" required class="form-control">
+            <label for="cliente" class="mt-2">Cliente: </label>
+                <select name="cliente" id="" required class="custom-select">
+                    {{#each clientes}}
+                    <option value="{{_id}}">{{nome}}</option>
+                    {{else}}
+                    <option value="0">Nenhum cliente registrado...</option>
+                    {{/each}}
+                </select>
+            <label for="descricao" class="mt-2">Descrição: </label>
+                <input type="text" id="descricao" name="descricao" required class="form-control">                
+            <label for="montador" class="mt-2">Montador: </label>
+                <select name="montador" id="" required class="custom-select ">
+                    <option value="Montador #1" id="Montador #1">Montador #1</option>
+                    <option value="Montador #2" id="Montador #2">Montador #2</option>
+                    <option value="Montador #3" id="Montador #3">Montador #3</option>
+                </select>
+            <label for="num_pedido" class="mt-2">Nº Pedido: </label>
+                <input type="text" id="num_pedido" name="num_pedido" required class="form-control ">
+            <label for="ordem" class="mt-2">Ordem de compra: </label>
+                <input type="text" id="ordem" name="ordem" required class="form-control">
+            {{!-- <label for="dt_pedido" class="mt-2">Data pedido: </label>
+                <input type="text" id="dt_pedido" name="dt_pedido" required value="dia de hoje" class="form-control ">
+            <label for="dt_previsao" class="mt-2">Data previsão: </label>
+                <input type="text" id="dt_previsao" name="dt_previsao" required value="daqui um mês" class="form-control "> --}}
+            
+            <button type="submit" class="btn btn-success mt-4">Salvar mudanças</button>
+        </form>
+        <a href="/admin"><button class="btn btn-danger mt-4">Voltar</button></a>
+    </div>
+</div>
