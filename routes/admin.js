@@ -51,7 +51,7 @@ router.post('/paineis/novo',(req,res)=>{
 
 
 router.get('/paineis/deletar/:id',(req,res)=>{
-    Painel.remove({_id: req.params.id}).then(()=>{
+    Painel.deleteOne({_id: req.params.id}).then(()=>{
         req.flash('success_msg','Painel deletado com sucesso!')
         res.redirect('/admin/paineis')
     }).catch((err)=>{
