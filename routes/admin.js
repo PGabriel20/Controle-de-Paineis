@@ -49,8 +49,25 @@ router.post('/paineis/novo',(req,res)=>{
     })
 })
 
-router.get('/paineis/edit',(req,res)=>{
-    res.render('admin/editpainel')
+//Pesquisa painel e redireciona para form de edição
+router.get('/paineis/edit/:id',(req,res)=>{
+    Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
+        Cliente.find().lean().then((clientes)=>{
+            res.render('admin/editpainel', {clientes: clientes, painel: painel})
+        }).catch((err)=>{
+            req.flash('error_msg','Houve um erro ao carregar painel!')
+            res.redirect('/admin')
+        })
+    }).catch((err)=>{
+        req.flash('error_msg','Houve um erro ao carregar formulario de edição!')
+        res.redirect('/admin')
+    })
+    
+})
+
+//Salva dados do formulario de edição
+router.post('/paineis/edit',(req,res)=>{
+    Postagem.findOne()
 })
 
 
