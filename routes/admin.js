@@ -70,7 +70,7 @@ router.get('/paineis/edit/:id',(req,res)=>{
 router.post('/paineis/edit',(req,res)=>{
 
     Painel.findOne({_id: req.body.id}).then((painel)=>{
-        
+
         painel.codigo = req.body.codigo,
         painel.cliente = req.body.cliente,
         painel.descricao = req.body.descricao,
@@ -79,7 +79,7 @@ router.post('/paineis/edit',(req,res)=>{
         painel.ordem = req.body.ordem
 
         painel.save().then(()=>{
-            req.flash('success_msg','Painel salvo co sucesso')
+            req.flash('success_msg','Painel salvo co sucesso!')
             res.redirect('/admin/paineis')
         }).catch((err)=>{
             req.flash('error_msg','Houve um erro interno!')
