@@ -28,26 +28,64 @@ router.get('/paineis/add',(req,res)=>{
         req.flash("error_msg", "Houve um erro ao carregar o formulario!")
         res.redirect('/admin')
     })
+
+
 })
 
 router.post('/paineis/novo',(req,res)=>{
-    //Codigo para salvar painel no banco
-    const novoPainel = {
-        codigo: req.body.codigo,
-        cliente: req.body.cliente,
-        descricao: req.body.descricao,
-        montador: req.body.montador,
-        num_pedido: req.body.num_pedido,
-        ordem: req.body.ordem
+
+    var erros = []
+
+    if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
+        erros.push({texto: "Codigo inválido"})
+    }
+    if(req.body.codigo.length > 3 || req.body.codigo.length < 3){
+        erros.push({texto: "O codigo deve ter apenas 3 numeros"})
+    }
+    if(req.body.cliente == 0){
+        erros.push({texto: "Nenhum cliente cadastrado"})
+    }
+    if(!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null){
+        erros.push({texto: "Descrição invalida"})
+    }
+    if(req.body.montador == 0){
+        erros.push({texto: "Nenhum montador encontrado"})
+    }
+    if(!req.body.num_pedido || typeof req.body.num_pedido == undefined || req.body.num_pedido == null){
+        erros.push({texto: "Numero do pedido inválido"})
+    }
+    if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
+        erros.push({texto: "Ordem do pedido inválida"})
+    }
+    if(erros.length > 0){
+        
+        res.render('admin/addpainel', {erros})
+
+        //res.redirect('back')
+    
     }
 
-    new Painel(novoPainel).save().then(()=>{
-        console.log('Painel salvo com sucesso!')
-        req.flash('success_msg', "Painel criado com sucesso!")
-        res.redirect('/admin/paineis')
-    }).catch((err)=>{
-        console.log('Erro ao criar painel!')
-    })
+    else{
+        //Codigo para salvar painel no banco
+        const novoPainel = {
+            codigo: req.body.codigo,
+            cliente: req.body.cliente,
+            descricao: req.body.descricao,
+            montador: req.body.montador,
+            num_pedido: req.body.num_pedido,
+            ordem: req.body.ordem
+        }
+        
+        new Painel(novoPainel).save().then(()=>{
+            console.log('Painel salvo com sucesso!')
+            req.flash('success_msg', "Painel criado com sucesso!")
+            res.redirect('/admin/paineis')
+        }).catch((err)=>{
+            console.log('Erro ao criar painel!')
+        })
+    }
+    
+    
 })
 
 //Pesquisa painel e redireciona para form de edição
