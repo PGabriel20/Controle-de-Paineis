@@ -26,18 +26,19 @@ router.get('/paineis/add',(req,res)=>{
 
 router.post('/paineis/novo',(req,res)=>{
     //Codigo para salvar painel no banco
-    //Nao funcional, rever depois
     const novoPainel = {
         codigo: req.body.codigo,
         cliente: req.body.cliente,
         descricao: req.body.descricao,
-        montador: req.body.montador,
+        montador: req.body.cliente,
         num_pedido: req.body.num_pedido,
         ordem: req.body.ordem
     }
 
     new Painel(novoPainel).save().then(()=>{
         console.log('Painel salvo com sucesso!')
+        req.flash('success_msg', "Painel criado com sucesso!")
+        res.redirect('/admin')
     }).catch((err)=>{
         console.log('Erro ao criar painel!')
     })
