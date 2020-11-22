@@ -78,11 +78,10 @@ router.post('/paineis/novo',(req,res)=>{
             res.redirect('/admin/paineis')
         }).catch((err)=>{
             console.log('Erro ao criar painel!')
-            req.flash('error_msg', "Houve um erro ao criar o Painel! Verifique o código e número do pedido")
+            req.flash('error_msg', "Houve um erro ao criar o Painel! Verifique o código e número do pedido!")
             res.redirect('/admin/paineis')
         })
     }
-    
     
 })
 
@@ -105,6 +104,7 @@ router.get('/paineis/edit/:id',(req,res)=>{
 //Salva dados do formulario de edição
 router.post('/paineis/edit',(req,res)=>{
 
+    //Validação para formulario de edição
     Painel.findOne({_id: req.body.id}).then((painel)=>{
 
         painel.codigo = req.body.codigo,
