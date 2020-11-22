@@ -40,9 +40,6 @@ router.post('/paineis/novo',(req,res)=>{
     if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
         erros.push({texto: "Codigo inválido!"})
     }
-    if(req.body.codigo.length > 3 || req.body.codigo.length < 3){
-        erros.push({texto: "O codigo deve ter apenas 3 numeros!"})
-    }
     if(req.body.cliente == 0){
         erros.push({texto: "Nenhum cliente cadastrado!"})
     }
@@ -56,15 +53,12 @@ router.post('/paineis/novo',(req,res)=>{
         erros.push({texto: "Numero do pedido inválido!"})
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
-        erros.push({texto: "Ordem do pedido inválida!"})
+        erros.push({texto: "Ordem de compra inválida!"})
     }
     if(erros.length > 0){
         Cliente.find().lean().then((clientes)=>{
             res.render('admin/addpainel', {erros: erros, clientes: clientes})
-        })
-
-
-        //res.redirect('back')    
+        })    
     }
 
     else{
@@ -84,7 +78,7 @@ router.post('/paineis/novo',(req,res)=>{
             res.redirect('/admin/paineis')
         }).catch((err)=>{
             console.log('Erro ao criar painel!')
-            req.flash('error_msg', "Houve um erro ao criar o Painel!")
+            req.flash('error_msg', "Houve um erro ao criar o Painel! Verifique o código e número do pedido")
             res.redirect('/admin/paineis')
         })
     }
