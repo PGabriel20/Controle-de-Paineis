@@ -1,9 +1,22 @@
 <h2>Paineis atualmente cadastrados:</h2>
 <a href="/admin/paineis/add"><button class="btn btn-success">Novo painel</button></a>
+<div class="header-paineil mt-4">
+    <div class="inner-header-paineil">
+        <li class="codigo"><h6>Codigo</h6></li>
+        <li class="npedido"><h6>Nº Pedido</h6></li>
+        <li class="cliente"><h6>Cliente</h6></li>
+        <li class="status"><h6>Status</h6></li>
+        <li class="ordem"><h6>Ordem do pedido</h6></li>
+        <li class="desc"><h6>Descrição do painel</h6></li>
+        <li class="qr-code"><h6>Qr-Code</h6></li>
+        <li class="editar"><h6>Editar</h6></li>
+        <li class="deletar"><h6>Deletar</h6></li>
+    </div>
+</div>
 {{#each paineis}}
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5>Codigo: {{codigo}}</h4>
+    <div class="card">
+        <div class="card-body painel-body">
+            <h5>Codigo:{{codigo}}</h4>
             <h5>Cliente: {{cliente.nome}}</h5>
             <h5>Montador: {{montador}}</h5>
             <h5>Nº pedido: {{num_pedido}}</h5>

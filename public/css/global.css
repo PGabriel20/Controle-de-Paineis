@@ -6,7 +6,7 @@
     margin-left: 8px;
     padding: 5px 8px 5px 8px;
     color: #f5f5f5;
-    font-size: 20px;
+    font-size: 18px;
     /* font-family: 'Roboto', sans-serif; */
 }
 
@@ -28,6 +28,10 @@
 
 
 /* Estilo Jumbotron */
+.main-jumbotron{
+    margin: 0 6rem 0 6rem;
+}
+
 .main-jumbotron a{
     background-color: #3E6BB3;
     color: #f5f5f5
@@ -36,6 +40,70 @@
 .main-jumbotron a:hover{
     color: #f5f5f5;
     background-color: rgb(52, 89, 150);
+}
+
+/* Estilo header geral dos paineis */
+.header-paineil{
+    background-color: #425066;
+    height: 50px;
+}
+
+.inner-header-paineil{
+    width: 100%;
+    margin-left: 20px;
+}
+
+.inner-header-paineil li{
+    color: #f5f5f5;
+    display: inline-block;
+    margin-top: 15px;
+    vertical-align: center;   
+}
+
+.cliente{
+    position: absolute;
+    left: 140px; 
+}
+
+.status{
+    position: absolute;
+    left: 240px; 
+}
+
+.ordem{
+    position: absolute;
+    left: 340px; 
+}
+
+.deletar{
+    position: absolute;
+    right: 40px;
+}
+
+.editar{
+    position: absolute;
+    right: 140px; 
+}
+
+.qr-code{
+    position: absolute;
+    right: 220px; 
+}
+
+.desc{
+    position: absolute;
+    right: 340px;
+}
+
+.npedido{
+    position: absolute;
+    left: 520px; 
+}
+
+/* Estilo corpo dos paineis */
+.painel-body h5{
+    display: inline-block;
+    margin-right: 190px
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
