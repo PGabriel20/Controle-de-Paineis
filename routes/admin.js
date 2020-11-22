@@ -34,35 +34,37 @@ router.get('/paineis/add',(req,res)=>{
 
 router.post('/paineis/novo',(req,res)=>{
 
+    //Validação de formulario de registro de paineis
     var erros = []
-
+    
     if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
-        erros.push({texto: "Codigo inválido"})
+        erros.push({texto: "Codigo inválido!"})
     }
     if(req.body.codigo.length > 3 || req.body.codigo.length < 3){
-        erros.push({texto: "O codigo deve ter apenas 3 numeros"})
+        erros.push({texto: "O codigo deve ter apenas 3 numeros!"})
     }
     if(req.body.cliente == 0){
-        erros.push({texto: "Nenhum cliente cadastrado"})
+        erros.push({texto: "Nenhum cliente cadastrado!"})
     }
     if(!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null){
-        erros.push({texto: "Descrição invalida"})
+        erros.push({texto: "Descrição invalida!"})
     }
     if(req.body.montador == 0){
-        erros.push({texto: "Nenhum montador encontrado"})
+        erros.push({texto: "Nenhum montador encontrado!"})
     }
     if(!req.body.num_pedido || typeof req.body.num_pedido == undefined || req.body.num_pedido == null){
-        erros.push({texto: "Numero do pedido inválido"})
+        erros.push({texto: "Numero do pedido inválido!"})
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
-        erros.push({texto: "Ordem do pedido inválida"})
+        erros.push({texto: "Ordem do pedido inválida!"})
     }
     if(erros.length > 0){
-        
-        res.render('admin/addpainel', {erros})
+        Cliente.find().lean().then((clientes)=>{
+            res.render('admin/addpainel', {erros: erros, clientes: clientes})
+        })
 
-        //res.redirect('back')
-    
+
+        //res.redirect('back')    
     }
 
     else{
@@ -82,6 +84,8 @@ router.post('/paineis/novo',(req,res)=>{
             res.redirect('/admin/paineis')
         }).catch((err)=>{
             console.log('Erro ao criar painel!')
+            req.flash('error_msg', "Houve um erro ao criar o Painel!")
+            res.redirect('/admin/paineis')
         })
     }
     
