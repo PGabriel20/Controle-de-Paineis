@@ -7,6 +7,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const flash = require('connect-flash')
+const usuarios = require('./routes/usuario')
 
 
 //Configurações
@@ -49,7 +50,7 @@ const flash = require('connect-flash')
 
 //Rotas
 app.use('/admin', admin)
-
+app.use('/usuarios', usuarios)
 app.get('/',(req,res)=>{
     res.render('index')
 })
