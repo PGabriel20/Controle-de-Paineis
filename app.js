@@ -8,6 +8,8 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const flash = require('connect-flash')
 const usuarios = require('./routes/usuario')
+const passport = require('passport')
+require('./config/auth')(passport)
 
 
 //Configurações
@@ -17,6 +19,10 @@ const usuarios = require('./routes/usuario')
         resave: true,
         saveUninitialized: true
     }))
+
+    //Passport
+    app.use(passport.initialize())
+    app.use(passport.session())
     app.use(flash())
 
     //Variaveis globais (mensagens flash)

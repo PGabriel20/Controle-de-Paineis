@@ -137,6 +137,7 @@ router.post('/paineis/edit',(req,res)=>{
         
     }
     else{
+
         Painel.findOne({_id: req.body.id}).then((painel)=>{
     
             painel.codigo = req.body.codigo,
@@ -159,6 +160,7 @@ router.post('/paineis/edit',(req,res)=>{
             req.flash('error_msg','Houve um erro ao salvar o painel!')
             res.redirect('/admin/paineis')
         })
+        
     }
 })
 
