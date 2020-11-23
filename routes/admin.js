@@ -57,7 +57,7 @@ router.post('/paineis/novo',(req,res)=>{
     }
     if(erros.length > 0){
         Cliente.find().lean().then((clientes)=>{
-            res.render('admin/addpainel', {erros: erros, clientes: clientes})
+            res.render('admin/addpainel', {clientes: clientes, erros: erros})
         })    
     }
 
@@ -78,7 +78,7 @@ router.post('/paineis/novo',(req,res)=>{
             res.redirect('/admin/paineis')
         }).catch((err)=>{
             console.log('Erro ao criar painel!')
-            req.flash('error_msg', "Houve um erro ao criar o Painel! Verifique o código e número do pedido!")
+            req.flash('error_msg', "Houve um erro ao criar o Painel! Verifique o código e número do pedido e tente novamente!")
             res.redirect('/admin/paineis')
         })
     }
@@ -105,28 +105,61 @@ router.get('/paineis/edit/:id',(req,res)=>{
 router.post('/paineis/edit',(req,res)=>{
 
     //Validação para formulario de edição
-    Painel.findOne({_id: req.body.id}).then((painel)=>{
+    const {codigo} = req.body;
 
-        painel.codigo = req.body.codigo,
-        painel.cliente = req.body.cliente,
-        painel.descricao = req.body.descricao,
-        painel.montador = req.body.montador,
-        painel.num_pedido = req.body.num_pedido,
-        painel.ordem = req.body.ordem
+    var erros = []
 
-        painel.save().then(()=>{
-            req.flash('success_msg','Painel salvo co sucesso!')
-            res.redirect('/admin/paineis')
+    if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
+        erros.push({texto: "Código inválido!"})
+    }
+    if(!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null){
+        erros.push({texto: "Descrição inválida!"})
+    }
+    if(!req.body.num_pedido || typeof req.body.num_pedido == undefined || req.body.num_pedido == null){
+        erros.push({texto: "Número do pedido inválido!"})
+    }
+    if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
+        erros.push({texto: "Ordem de pedido inválida!"})
+    }
+    if(erros.length>0){
+
+        Painel.findOne({_id: req.body.id}).lean().then((painel)=>{
+            Cliente.find().lean().then((clientes)=>{
+                res.render('admin/editpainel', {clientes: clientes, painel: painel, erros: erros})
+            }).catch((err)=>{
+                req.flash('error_msg','Houve um erro ao carregar painel!')
+                res.redirect('/admin')
+            })
         }).catch((err)=>{
-            req.flash('error_msg','Houve um erro interno!')
+            req.flash('error_msg','Houve um erro ao carregar formulario de edição!')
+            res.redirect('/admin')
+        })
+        
+    }
+    else{
+        Painel.findOne({_id: req.body.id}).then((painel)=>{
+    
+            painel.codigo = req.body.codigo,
+            painel.cliente = req.body.cliente,
+            painel.descricao = req.body.descricao,
+            painel.montador = req.body.montador,
+            painel.num_pedido = req.body.num_pedido,
+            painel.ordem = req.body.ordem
+    
+            painel.save().then(()=>{
+                req.flash('success_msg','Painel salvo co sucesso!')
+                res.redirect('/admin/paineis')
+            }).catch((err)=>{
+                req.flash('error_msg','Houve um erro ao salvar o formulario, verifique o codigo e o numero do pedido e tente novamente!')
+                res.redirect('/admin/paineis')
+            })
+    
+        }).catch((err)=>{
+            console.log(err)
+            req.flash('error_msg','Houve um erro ao salvar o painel!')
             res.redirect('/admin/paineis')
         })
-
-    }).catch((err)=>{
-        console.log(err)
-        req.flash('error_msg','Houve um erro ao salvar o painel!')
-        res.redirect('/admin/paineis')
-    })
+    }
 })
 
 

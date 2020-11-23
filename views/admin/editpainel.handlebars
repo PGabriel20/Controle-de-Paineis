@@ -1,5 +1,5 @@
 {{#each erros}}
-<div class="alert alert-danger">{{texto}}</div>
+<div class="alert alert-danger mt-2">{{texto}}</div>
 {{else}}
 {{/each}}
 
@@ -9,7 +9,7 @@
         <form action="/admin/paineis/edit" method="POST" class="control-form">
             <input type="hidden" name="id" value="{{painel._id}}">
             <label for="codigo" class="mt-2">Código: </label>
-                <input type="number" id="codigo" name="codigo" required value="{{painel.codigo}}" class="form-control">
+                <input type="number" id="codigo" name="codigo"  value="{{painel.codigo}}" class="form-control">
             <label for="cliente" class="mt-2">Cliente: </label>
                 <select name="cliente" id="" required class="custom-select">
                     {{#each clientes}}
