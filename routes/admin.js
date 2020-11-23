@@ -5,14 +5,15 @@ require('../models/Cliente')
 const Cliente = mongoose.model('clientes')
 require('../models/Painel')
 const Painel = mongoose.model('paineis')
+const {eAdmin} = require('../helpers/eAdmin')
 
 //Rotas
-router.get('/',(req,res)=>{
+router.get('/', eAdmin, (req,res)=>{
     res.render('admin/index')
 })
 
 //Lista paineis
-router.get('/paineis',(req,res)=>{
+router.get('/paineis', eAdmin, (req,res)=>{
     Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
         res.render('admin/paineis',{paineis: paineis})
     }).catch((err)=>{
@@ -21,7 +22,7 @@ router.get('/paineis',(req,res)=>{
     })
 })
 
-router.get('/paineis/add',(req,res)=>{
+router.get('/paineis/add', eAdmin, (req,res)=>{
     Cliente.find().lean().then((clientes)=>{
         res.render('admin/addpainel',{clientes: clientes})
     }).catch((err)=>{
@@ -32,7 +33,7 @@ router.get('/paineis/add',(req,res)=>{
 
 })
 
-router.post('/paineis/novo',(req,res)=>{
+router.post('/paineis/novo', eAdmin, (req,res)=>{
 
     //Validação de formulario de registro de paineis
     var erros = []
@@ -86,7 +87,7 @@ router.post('/paineis/novo',(req,res)=>{
 })
 
 //Pesquisa painel e redireciona para form de edição
-router.get('/paineis/edit/:id',(req,res)=>{
+router.get('/paineis/edit/:id', eAdmin, (req,res)=>{
     Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
         Cliente.find().lean().then((clientes)=>{
             res.render('admin/editpainel', {clientes: clientes, painel: painel})
@@ -102,7 +103,7 @@ router.get('/paineis/edit/:id',(req,res)=>{
 })
 
 //Salva dados do formulario de edição
-router.post('/paineis/edit',(req,res)=>{
+router.post('/paineis/edit', eAdmin, (req,res)=>{
 
     //Validação para formulario de edição
     const {codigo} = req.body;
@@ -165,7 +166,7 @@ router.post('/paineis/edit',(req,res)=>{
 })
 
 
-router.get('/paineis/deletar/:id',(req,res)=>{
+router.get('/paineis/deletar/:id', eAdmin, (req,res)=>{
     Painel.deleteOne({_id: req.params.id}).then(()=>{
         req.flash('success_msg','Painel deletado com sucesso!')
         res.redirect('/admin/paineis')
@@ -177,7 +178,7 @@ router.get('/paineis/deletar/:id',(req,res)=>{
 
 
 //Cadastrar cliente
-router.get('/clientes/novo',(req,res)=>{
+router.get('/clientes/novo', eAdmin ,(req,res)=>{
     //Inserindo dados de cliente no banco, para aparecer no formulario de painel
     new Cliente({
         nome: "Cliente #3",
