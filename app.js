@@ -62,8 +62,6 @@ app.get('/',(req,res)=>{
     res.render('index')
 })
 
-
-
 //Outros
 const PORT = 8001
 app.listen(PORT, ()=>{

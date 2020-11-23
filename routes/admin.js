@@ -9,7 +9,7 @@ const {eAdmin} = require('../helpers/eAdmin')
 
 //Rotas
 router.get('/', eAdmin, (req,res)=>{
-    res.render('admin/paineis')
+    res.rendirect('admin/paineis')
 })
 
 //Lista paineis
