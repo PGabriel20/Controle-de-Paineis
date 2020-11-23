@@ -3,7 +3,10 @@
   <h1 class="display-5">Bem vindo ao sistema de controle de painéis!</h1>
   <p class="lead">App desenvolvido com Node.Js + Handlebars + MongoDb</p>
   <hr class="my-4">
+  {{#if user}}
+  {{else}}
   <p>Crie uma conta ou faça login para começar.</p>
-  <a class="btn btn-lg mr-2 mt-2" href="#" role="button">Entrar</a>
-  <a class="btn btn-lg mt-2" href="#" role="button">Crie uma conta</a>
+  <a class="btn btn-lg mr-2 mt-2" href="/usuarios/login" role="button">Entrar</a>
+  <a class="btn btn-lg mt-2" href="/usuarios/registro" role="button">Crie uma conta</a>
+  {{/if}}
 </div>
