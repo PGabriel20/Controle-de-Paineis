@@ -181,9 +181,9 @@ router.get('/paineis/deletar/:id', eAdmin, (req,res)=>{
 router.get('/clientes/novo', eAdmin ,(req,res)=>{
     //Inserindo dados de cliente no banco, para aparecer no formulario de painel
     new Cliente({
-        nome: "Cliente #3",
-        cpf: 11112300,
-        telefone: 0555300000,
+        nome: "Pedro",
+        cpf: 11120000,
+        telefone: 055530000,
         cidade: "Espírito santo do pinhal",
         
     }).save().then(()=>{
@@ -196,19 +196,17 @@ router.get('/clientes/novo', eAdmin ,(req,res)=>{
 
 //Rota para acesar painel específico
 router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
+
     Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
-        Cliente.findOne({fodase: req.params.cliente.nome}).lean().then((fodase)=>{
-            if(painel){
-                res.render('painel/index', {fodase: fodase, painel: painel})
-            }
-            else{
-                req.flash('error_msg', 'Este painel não existe!')
-                res.redirect('/')
-            }
-        }).catch((err)=>{
-            req.flash('error_msg', 'Erro interno!')
+        if(painel){
+            Cliente.findOne().lean().then((cliente)=>{
+                res.render('painel/index', {painel, cliente})
+            })
+        }
+        else{
+            req.flash('error_msg', 'Este painel não existe!')
             res.redirect('/')
-        })
+        }
         
 
     }).catch((err)=>{
