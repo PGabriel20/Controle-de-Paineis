@@ -9,7 +9,7 @@ const {eAdmin} = require('../helpers/eAdmin')
 
 //Rotas
 router.get('/', eAdmin, (req,res)=>{
-    res.rendirect('admin/paineis')
+    res.redirect('admin/paineis')
 })
 
 //Lista paineis
@@ -194,6 +194,28 @@ router.get('/clientes/novo', eAdmin ,(req,res)=>{
 })
 
 
+//Rota para acesar painel específico
+router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
+    Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
+        Cliente.findOne({fodase: req.params.cliente.nome}).lean().then((fodase)=>{
+            if(painel){
+                res.render('painel/index', {fodase: fodase, painel: painel})
+            }
+            else{
+                req.flash('error_msg', 'Este painel não existe!')
+                res.redirect('/')
+            }
+        }).catch((err)=>{
+            req.flash('error_msg', 'Erro interno!')
+            res.redirect('/')
+        })
+        
 
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro interno!')
+        res.redirect('/admin/paineis')
+    })
+    
+})
 
 module.exports = router
