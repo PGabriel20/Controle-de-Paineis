@@ -19,7 +19,7 @@
             <h6 style="margin-right: 39px;">{{num_pedido}}</h6>
             <h6 style="margin-right: 10px;">{{cliente.nome}}</h6>
             <h6 style="margin-right: 35px;">{{montador}}</h6>
-            <h6 style="margin-right: 90px;">{{ordem}}</h6>
+            <h6 style="width: 170px; margin-right: 22px;">{{ordem}}</h6>
             <div class="desc">
                 <p>{{descricao}}</p>
             </div>
@@ -30,6 +30,7 @@
             
             <a href="/admin/paineis/edit/{{_id}}"><button class="btn btn-primary">Editar Painel</button></a>
             <a href="/admin/paineis/deletar/{{_id}}"><button class="btn btn-danger">Deletar</button></a>
+            <a href="/admin/painel/{{_id}}/{{cliente.nome}}"><button class="btn btn-danger">leia mais</button></a>
         </div>
     </div>
 {{else}}
