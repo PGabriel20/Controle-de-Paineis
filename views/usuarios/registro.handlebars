@@ -2,9 +2,11 @@
     <div class="alert alert-danger mt-2">{{texto}}</div>
 {{else}}
 {{/each}}
-<h3>Crie sua conta:</h3>
-<div class="card">
-    <div class="card-body">
+
+<div class="container container-registro mt-4">
+    <div class="card">
+    <div class="card-body card-registro">
+        <h4>Crie sua conta:</h4>
         <form action="/usuarios/registro" method="POST">
             <label for="nome">Nome: </label>
                 <input type="text" name="nome" class="form-control" required>
@@ -17,4 +19,5 @@
             <button class="btn btn-success mt-4">Criar Conta</button>
         </form>
     </div>
+</div>
 </div>
