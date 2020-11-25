@@ -43,8 +43,6 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
 
 router.post('/paineis/novo', eAdmin, (req,res)=>{
 
-    
-
     //Validação de formulario de registro de paineis
     var erros = []
     
@@ -65,6 +63,9 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
         erros.push({texto: "Ordem de compra inválida!"})
+    }
+    if(!req.body.valor || typeof req.body.valor == undefined || req.body.valor == null){
+        erros.push({texto: "Valor inválido!"})
     }
     if(erros.length > 0){
         Cliente.find().lean().then((clientes)=>{
@@ -118,8 +119,6 @@ router.get('/paineis/edit/:id', eAdmin, (req,res)=>{
 router.post('/paineis/edit', eAdmin, (req,res)=>{
 
     //Validação para formulario de edição
-    const {codigo} = req.body;
-
     var erros = []
 
     if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
@@ -133,6 +132,9 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
         erros.push({texto: "Ordem de pedido inválida!"})
+    }
+    if(!req.body.valor || typeof req.body.valor == undefined || req.body.valor == null){
+        erros.push({texto: "Valor inválido!"})
     }
     if(erros.length>0){
 
@@ -173,8 +175,9 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
             req.flash('error_msg','Houve um erro ao salvar o painel!')
             res.redirect('/admin/paineis')
         })
-        
+
     }
+
 })
 
 
@@ -219,7 +222,6 @@ router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
             req.flash('error_msg', 'Este painel não existe!')
             res.redirect('/')
         }
-        
 
     }).catch((err)=>{
         req.flash('error_msg', 'Houve um erro interno!')
