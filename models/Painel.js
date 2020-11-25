@@ -28,6 +28,10 @@ const Painel = new Schema({
         type: String,
         required: true
     },
+    dt_registro:{
+        type: Date,
+        default: Date.now()
+    },
     dt_pedido:{
         type: String,
         required: true

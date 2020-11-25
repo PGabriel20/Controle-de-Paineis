@@ -82,6 +82,7 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
             num_pedido: req.body.num_pedido,
             ordem: req.body.ordem,
             valor: req.body.valor,
+            dt_pedido: req.body.dt_pedido,
             dt_previsao: req.body.dt_previsao,
             observacao: req.body.observacao
         }
