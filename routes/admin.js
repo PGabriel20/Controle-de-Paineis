@@ -143,6 +143,12 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
     if(!req.body.valor || typeof req.body.valor == undefined || req.body.valor == null){
         erros.push({texto: "Valor inválido!"})
     }
+    if(!req.body.dt_pedido || typeof req.body.dt_pedido == undefined || req.body.dt_pedido == null){
+        erros.push({texto: "Data de pedido inválida!"})
+    }
+    if(!req.body.dt_previsao || typeof req.body.dt_previsao == undefined || req.body.dt_previsao == null){
+        erros.push({texto: "Data de previsão inválida!"})
+    }
     if(erros.length>0){
 
         Painel.findOne({_id: req.body.id}).lean().then((painel)=>{
@@ -168,6 +174,8 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
             painel.montador = req.body.montador,
             painel.num_pedido = req.body.num_pedido,
             painel.ordem = req.body.ordem
+            painel.dt_pedido = req.body.dt_pedido
+            painel.dt_previsao = req.body.dt_previsao
             painel.valor = req.body.valor
             painel.observacao= req.body.observacao
     
