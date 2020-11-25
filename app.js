@@ -44,6 +44,7 @@ require('./config/auth')(passport)
 
     //Publico
     app.use(express.static(path.join(__dirname,'public')))
+    app.use(express.static('public/img'))
 
     //Mongoose
         mongoose.Promise = global.Promise;
