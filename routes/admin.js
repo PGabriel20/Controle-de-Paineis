@@ -15,15 +15,9 @@ router.get('/', eAdmin, (req,res)=>{
 //Lista paineis
 router.get('/paineis', eAdmin, (req,res)=>{
 
-    let datahj = new Date()
-    let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
-    var formatada = datahj.toLocaleDateString();
-    var formatadaMes = datames.toLocaleDateString();
-    var formatada = formatada.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
-    var formatadaMes = formatadaMes.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
 
     Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
-        res.render('admin/paineis',{paineis: paineis, datahj, formatada, formatadaMes})
+        res.render('admin/paineis',{paineis: paineis})
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar paineis!")
         res.redirect('/admin')
@@ -31,8 +25,17 @@ router.get('/paineis', eAdmin, (req,res)=>{
 })
 
 router.get('/paineis/add', eAdmin, (req,res)=>{
+
+    let datahj = new Date()
+    let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
+    
+    var formatada = datahj.toLocaleDateString();
+    var formatadaMes = datames.toLocaleDateString();
+    var formatada = formatada.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
+    var formatadaMes = formatadaMes.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
+
     Cliente.find().lean().then((clientes)=>{
-        res.render('admin/addpainel',{clientes: clientes})
+        res.render('admin/addpainel',{clientes: clientes, formatada, formatadaMes})
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar o formulario!")
         res.redirect('/admin')
@@ -180,7 +183,7 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
 
 })
 
-
+//Deletar painel
 router.get('/paineis/deletar/:id', eAdmin, (req,res)=>{
     Painel.deleteOne({_id: req.params.id}).then(()=>{
         req.flash('success_msg','Painel deletado com sucesso!')
