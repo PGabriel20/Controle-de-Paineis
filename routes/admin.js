@@ -6,6 +6,7 @@ const Cliente = mongoose.model('clientes')
 require('../models/Painel')
 const Painel = mongoose.model('paineis')
 const {eAdmin} = require('../helpers/eAdmin')
+var format = require('../config/format')
 
 //Rotas
 router.get('/', eAdmin, (req,res)=>{
@@ -28,11 +29,8 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
 
     let datahj = new Date()
     let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
-    
-    var formatada = datahj.toLocaleDateString();
-    var formatadaMes = datames.toLocaleDateString();
-    var formatada = formatada.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
-    var formatadaMes = formatadaMes.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
+
+    var formatada = format(datahj, datames)
 
     Cliente.find().lean().then((clientes)=>{
         res.render('admin/addpainel',{clientes: clientes, formatada, formatadaMes})
@@ -84,6 +82,7 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
             num_pedido: req.body.num_pedido,
             ordem: req.body.ordem,
             valor: req.body.valor,
+            dt_previsao: req.body.dt_previsao,
             observacao: req.body.observacao
         }
         
