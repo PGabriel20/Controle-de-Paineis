@@ -30,9 +30,13 @@
             <label for="ordem" class="mt-2">Ordem de compra: </label>
                 <input type="text" id="ordem" name="ordem" required class="form-control">
             {{!-- <label for="dt_pedido" class="mt-2">Data pedido: </label>
-                <input type="text" id="dt_pedido" name="dt_pedido" required value="dia de hoje" class="form-control ">
-            <label for="dt_previsao" class="mt-2">Data previsão: </label>
+                <input type="text" id="dt_pedido" name="dt_pedido" required value="{{dt_pedido}}" class="form-control "> --}}
+            {{!-- <label for="dt_previsao" class="mt-2">Data previsão: </label>
                 <input type="text" id="dt_previsao" name="dt_previsao" required value="daqui um mês" class="form-control "> --}}
+            <label for="valor">Valor: </label>
+                <input type="number" id="valolr" name="valor" required class="form-control">
+            <label for="observacao">Observações</label>
+                <textarea name="observacao" id="" cols="30" rows="10" class="form-control"></textarea>
             
             <button type="submit" class="btn btn-success mt-4">Cadastrar novo painel</button>
         </form>
