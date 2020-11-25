@@ -37,8 +37,6 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
         req.flash("error_msg", "Houve um erro ao carregar o formulario!")
         res.redirect('/admin')
     })
-
-
 })
 
 router.post('/paineis/novo', eAdmin, (req,res)=>{
@@ -161,6 +159,8 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
             painel.montador = req.body.montador,
             painel.num_pedido = req.body.num_pedido,
             painel.ordem = req.body.ordem
+            painel.valor = req.body.valor
+            painel.observacao= req.body.observacao
     
             painel.save().then(()=>{
                 req.flash('success_msg','Painel salvo co sucesso!')
