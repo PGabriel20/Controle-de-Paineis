@@ -29,8 +29,12 @@ const Painel = new Schema({
         required: true
     },
     dt_pedido:{
-        type: Date,
-        default: Date.now()
+        type: String,
+        required: true
+    },
+    dt_previsao:{
+        type: String,
+        required: true
     },
     valor:{
         type: Number,
