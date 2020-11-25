@@ -14,8 +14,16 @@ router.get('/', eAdmin, (req,res)=>{
 
 //Lista paineis
 router.get('/paineis', eAdmin, (req,res)=>{
+
+    let datahj = new Date()
+    let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
+    var formatada = datahj.toLocaleDateString();
+    var formatadaMes = datames.toLocaleDateString();
+    var formatada = formatada.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
+    var formatadaMes = formatadaMes.replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1')
+
     Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
-        res.render('admin/paineis',{paineis: paineis})
+        res.render('admin/paineis',{paineis: paineis, datahj, formatada, formatadaMes})
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar paineis!")
         res.redirect('/admin')
@@ -34,6 +42,8 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
 })
 
 router.post('/paineis/novo', eAdmin, (req,res)=>{
+
+    
 
     //Validação de formulario de registro de paineis
     var erros = []
@@ -70,7 +80,9 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
             descricao: req.body.descricao,
             montador: req.body.montador,
             num_pedido: req.body.num_pedido,
-            ordem: req.body.ordem
+            ordem: req.body.ordem,
+            valor: req.body.valor,
+            observacao: req.body.observacao
         }
         
         new Painel(novoPainel).save().then(()=>{
