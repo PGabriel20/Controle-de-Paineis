@@ -66,6 +66,12 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
     if(!req.body.valor || typeof req.body.valor == undefined || req.body.valor == null){
         erros.push({texto: "Valor inválido!"})
     }
+    if(!req.body.dt_pedido || typeof req.body.dt_pedido == undefined || req.body.dt_pedido == null){
+        erros.push({texto: "Data de pedido inválida!"})
+    }
+    if(!req.body.dt_previsao || typeof req.body.dt_previsao == undefined || req.body.dt_previsao == null){
+        erros.push({texto: "Data de previsão inválida!"})
+    }
     if(erros.length > 0){
         Cliente.find().lean().then((clientes)=>{
             res.render('admin/addpainel', {clientes: clientes, erros: erros})
@@ -93,7 +99,7 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
             res.redirect('/admin/paineis')
         }).catch((err)=>{
             console.log('Erro ao criar painel!')
-            req.flash('error_msg', "Houve um erro ao criar o Painel! Verifique o código e número do pedido e tente novamente!")
+            req.flash('error_msg', "Houve um erro ao criar o Painel! Preencha todos os campos corretamente!")
             res.redirect('/admin/paineis')
         })
     }
@@ -169,7 +175,7 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
                 req.flash('success_msg','Painel salvo co sucesso!')
                 res.redirect('/admin/paineis')
             }).catch((err)=>{
-                req.flash('error_msg','Houve um erro ao salvar o formulario, verifique o codigo e o numero do pedido e tente novamente!')
+                req.flash('error_msg','Houve um erro ao salvar o formulario, preencha todos os campos corretamente!')
                 res.redirect('/admin/paineis')
             })
     
