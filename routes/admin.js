@@ -8,11 +8,13 @@ const Painel = mongoose.model('paineis')
 const {eAdmin} = require('../helpers/eAdmin')
 var format = require('../config/format')
 
+
 //Rotas
 //Rota principal
 router.get('/', eAdmin, (req,res)=>{
     res.redirect('admin/paineis')
 })
+
 
 //Lista paineis
 router.get('/paineis', eAdmin, (req,res)=>{
@@ -25,6 +27,7 @@ router.get('/paineis', eAdmin, (req,res)=>{
         res.redirect('/admin')
     })
 })
+
 
 router.get('/paineis/add', eAdmin, (req,res)=>{
 
@@ -40,6 +43,7 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
         res.redirect('/admin')
     })
 })
+
 
 router.post('/paineis/novo', eAdmin, (req,res)=>{
 
@@ -87,8 +91,8 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
             res.render('admin/addpainel', {clientes,formatada, formatadaMes, erros})
         })    
     }
-
     else{
+
         //Checa se ja existe painel com tal id
         Painel.findOne({codigo: query},(err, painel)=>{
             if(err){
@@ -136,6 +140,7 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
     }
 })
 
+
 //Rota para edição de painel
 router.get('/paineis/edit/:id', eAdmin, (req,res)=>{
     Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
@@ -149,8 +154,8 @@ router.get('/paineis/edit/:id', eAdmin, (req,res)=>{
         req.flash('error_msg','Houve um erro ao carregar formulario de edição!')
         res.redirect('/admin')
     })
-    
 })
+
 
 //Salva dados do formulario de edição
 router.post('/paineis/edit', eAdmin, (req,res)=>{
@@ -259,7 +264,6 @@ router.get('/clientes/novo', eAdmin ,(req,res)=>{
 
 //Rota para acesar painel específico
 router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
-
     Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
         if(painel){
             Cliente.findOne().lean().then((cliente)=>{
@@ -275,7 +279,6 @@ router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
         req.flash('error_msg', 'Houve um erro interno!')
         res.redirect('/admin/paineis')
     })
-    
 })
 
 module.exports = router
