@@ -25,7 +25,9 @@
                 <p>{{descricao}}</p>
             </div>
             <a href="/admin/paineis/edit/{{_id}}" class="editar2"><img src="../edit3.png" alt="imagem"></a>
-            <a href="/admin/paineis/deletar/{{_id}}" class="deletar"><img src="../delete3.png" alt="imagem"></a>
+            <a href="/admin/paineis/deletar/{{_id}}" onclick="return confirm('Você tem certeza de que quer deletar este painel?');" class="deletar"><img src="../delete3.png" alt="imagem"></a>
+            {{!-- <a href="#" class="openModal deletar"><img src="../delete3.png" alt="imagem"></a> --}}
+ 
         </div>
     </div>
 </a>
