@@ -9,34 +9,42 @@
 
         <form action="/admin/paineis/edit" method="POST" class="control-form">
             <input type="hidden" name="id" value="{{painel._id}}">
-            <label for="codigo" class="mt-2">Código: </label>
-                <input type="number" id="codigo" name="codigo"  value="{{painel.codigo}}" class="form-control">
-            <label for="cliente" class="mt-2">Cliente: </label>
-                <select name="cliente" id="" required class="custom-select">
-                    {{#each clientes}}
-                    <option value="{{_id}}">{{nome}}</option>
-                    {{else}}
-                    <option value="0">Nenhum cliente registrado...</option>
-                    {{/each}}
-                </select>
-            <label for="descricao" class="mt-2">Descrição: </label>
-                <input type="text" id="descricao" name="descricao" required value="{{painel.descricao}}" class="form-control">                
-            <label for="montador" class="mt-2">Montador: </label>
-                <select name="montador" id="" required class="custom-select ">
+            <label for="codigo"  class="mt-2">Código: </label>
+            <label for="cliente" style="margin-left: 98px" class="mt-2">Cliente: </label>
+            <label for="descricao" style="margin-left: 198px" class="mt-2">Descrição: </label>
+            <label for="montador" style="margin-left: 274px" class="mt-2">Montador: </label><br>
+
+            
+            <input type="number" id="codigo" name="codigo"  value="{{painel.codigo}}" class="codigo linha1 form-control">
+            <select name="cliente" id="" required class="cliente linha1 custom-select">
+                {{#each clientes}}
+                <option value="{{_id}}">{{nome}}</option>
+                {{else}}
+                <option value="0">Nenhum cliente registrado...</option>
+                {{/each}}
+            </select>
+            
+                <input type="text" id="descricao" name="descricao" required value="{{painel.descricao}}" class="descricao linha1 form-control">                
+                <select name="montador" id="" required class="montador linha1 custom-select">
                     <option value="Montador #1" id="Montador #1">Montador #1</option>
                     <option value="Montador #2" id="Montador #2">Montador #2</option>
                     <option value="Montador #3" id="Montador #3">Montador #3</option>
-                </select>
-            <label for="num_pedido" class="mt-2">Nº Pedido: </label>
-                <input type="number" id="num_pedido" name="num_pedido" required value="{{painel.num_pedido}}" class="form-control ">
-            <label for="ordem" class="mt-2">Ordem de compra: </label>
-                <input type="text" id="ordem" name="ordem" required value="{{painel.ordem}}" class="form-control">
-            <label for="dt_pedido">Data pedido:</label>
-                <input type="text" id="dt_pedido" name="dt_pedido" value="{{painel.dt_pedido}}" required placeholder="dd-mm-yyyy" class="form-control">
-            <label for="dt_previsao">Data previsão:</label>
-                <input type="text" id="dt_previsao" name="dt_previsao" value="{{painel.dt_previsao}}" required placeholder="dd-mm-yyyy" class="form-control">
-            <label for="valor">Valor: </label>
-                <input type="number" id="valor" name="valor" required value="{{painel.valor}}" class="form-control">
+                </select><br>
+
+            {{!-- Linha2 --}}
+            <label for="num_pedido" class="mt-4">Nº Pedido: </label>
+            <label for="ordem" style="margin-left: 76px;" class="mt-2">Ordem de compra: </label>
+            <label for="dt_pedido" style="margin-left: 34px;">Data pedido:</label>
+            <label for="dt_previsao" style="margin-left: 107px;">Data previsão:</label>
+            <label for="valor" style="margin-left: 94px;">Valor: </label><br>
+
+                <input type="number" id="num_pedido" name="num_pedido" required value="{{painel.num_pedido}}" class="num_pedido linha2 form-control">
+                <input type="text" id="ordem" name="ordem" required value="{{painel.ordem}}" class="linha2 ordem form-control">
+                <input type="text" id="dt_pedido" name="dt_pedido" value="{{painel.dt_pedido}}" required placeholder="dd-mm-yyyy" class="linha2 dt_pedido form-control">
+                <input type="text" id="dt_previsao" name="dt_previsao" value="{{painel.dt_previsao}}" required placeholder="dd-mm-yyyy" class="linha2 dt_previsao form-control">
+                <input type="number" id="valor" name="valor" required value="{{painel.valor}}" class="linha2 valor form-control">
+                <br>
+
             <label for="observacao">Observações</label>
                 <textarea name="observacao" id="" cols="30" rows="10" value="{{painel.observacao}}" class="form-control"></textarea>
 
