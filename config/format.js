@@ -1,3 +1,4 @@
+//Função para formatar data
 function formatar(data, datames){
     formatada = data.toLocaleDateString();
     formatadaMes = datames.toLocaleDateString();
