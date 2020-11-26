@@ -64,7 +64,7 @@ app.get('/',(req,res)=>{
 })
 
 //Outros
-const PORT = 8001
+const PORT = process.env.PORT || 8001
 app.listen(PORT, ()=>{
     console.log('Servidor rodando...')
 })
