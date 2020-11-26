@@ -9,6 +9,7 @@ const {eAdmin} = require('../helpers/eAdmin')
 var format = require('../config/format')
 
 //Rotas
+//Rota principal
 router.get('/', eAdmin, (req,res)=>{
     res.redirect('admin/paineis')
 })
@@ -18,7 +19,7 @@ router.get('/paineis', eAdmin, (req,res)=>{
 
 
     Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
-        res.render('admin/paineis',{paineis: paineis})
+        res.render('admin/paineis',{paineis})
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar paineis!")
         res.redirect('/admin')
@@ -33,7 +34,7 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
     var formatada = format(datahj, datames)
 
     Cliente.find().lean().then((clientes)=>{
-        res.render('admin/addpainel',{clientes: clientes, formatada, formatadaMes})
+        res.render('admin/addpainel',{clientes, formatada, formatadaMes})
     }).catch((err)=>{
         req.flash("error_msg", "Houve um erro ao carregar o formulario!")
         res.redirect('/admin')
@@ -44,9 +45,13 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
 
     //Validação de formulario de registro de paineis
     var erros = []
-    
+    var query = req.body.codigo
+
     if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
         erros.push({texto: "Codigo inválido!"})
+    }
+    if(req.body.cliente == 1){
+        erros.push({texto: "Selecione um cliente!"})
     }
     if(req.body.cliente == 0){
         erros.push({texto: "Nenhum cliente cadastrado!"})
@@ -73,44 +78,69 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
         erros.push({texto: "Data de previsão inválida!"})
     }
     if(erros.length > 0){
+        let datahj = new Date()
+        let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
+
+        var formatada = format(datahj, datames)
+
         Cliente.find().lean().then((clientes)=>{
-            res.render('admin/addpainel', {clientes: clientes, erros: erros})
+            res.render('admin/addpainel', {clientes,formatada, formatadaMes, erros})
         })    
     }
 
     else{
-        //Codigo para salvar painel no banco
-        const novoPainel = {
-            codigo: req.body.codigo,
-            cliente: req.body.cliente,
-            descricao: req.body.descricao,
-            montador: req.body.montador,
-            num_pedido: req.body.num_pedido,
-            ordem: req.body.ordem,
-            valor: req.body.valor,
-            dt_pedido: req.body.dt_pedido,
-            dt_previsao: req.body.dt_previsao,
-            observacao: req.body.observacao
-        }
-        
-        new Painel(novoPainel).save().then(()=>{
-            console.log('Painel salvo com sucesso!')
-            req.flash('success_msg', "Painel criado com sucesso!")
-            res.redirect('/admin/paineis')
-        }).catch((err)=>{
-            console.log('Erro ao criar painel!')
-            req.flash('error_msg', "Houve um erro ao criar o Painel! Preencha todos os campos corretamente!")
-            res.redirect('/admin/paineis')
+        //Checa se ja existe painel com tal id
+        Painel.findOne({codigo: query},(err, painel)=>{
+            if(err){
+                console.log(err)
+            }
+            if(painel){
+                let datahj = new Date()
+                let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
+
+                var formatada = format(datahj, datames)
+
+                Cliente.find().lean().then((clientes)=>{
+                    erros.push({texto: 'Já existe um painel com este código!'})
+                    res.render('admin/addpainel',{clientes, erros, formatada, formatadaMes})
+                })                 
+            }
+            else{
+                
+                console.log('Pode cadastrar')
+                const novoPainel = {
+                    codigo: req.body.codigo,
+                    cliente: req.body.cliente,
+                    descricao: req.body.descricao,
+                    montador: req.body.montador,
+                    num_pedido: req.body.num_pedido,
+                    ordem: req.body.ordem,
+                    valor: req.body.valor,
+                    dt_pedido: req.body.dt_pedido,
+                    dt_previsao: req.body.dt_previsao,
+                    observacao: req.body.observacao
+                }
+                
+                new Painel(novoPainel).save().then(()=>{
+                    console.log('Painel salvo com sucesso!')
+                    req.flash('success_msg', "Painel criado com sucesso!")
+                    res.redirect('/admin/paineis')
+                }).catch((err)=>{
+                    console.log('Erro ao criar painel!')
+                    req.flash('error_msg', "Houve um erro ao criar o Painel! Preencha todos os campos corretamente!")
+                    res.redirect('/admin/paineis')
+                })
+
+            }
         })
     }
-    
 })
 
-//Pesquisa painel e redireciona para form de edição
+//Rota para edição de painel
 router.get('/paineis/edit/:id', eAdmin, (req,res)=>{
     Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
         Cliente.find().lean().then((clientes)=>{
-            res.render('admin/editpainel', {clientes: clientes, painel: painel})
+            res.render('admin/editpainel', {clientes, painel})
         }).catch((err)=>{
             req.flash('error_msg','Houve um erro ao carregar painel!')
             res.redirect('/admin')
@@ -153,7 +183,7 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
 
         Painel.findOne({_id: req.body.id}).lean().then((painel)=>{
             Cliente.find().lean().then((clientes)=>{
-                res.render('admin/editpainel', {clientes: clientes, painel: painel, erros: erros})
+                res.render('admin/editpainel', {clientes, painel, erros})
             }).catch((err)=>{
                 req.flash('error_msg','Houve um erro ao carregar painel!')
                 res.redirect('/admin')
@@ -197,7 +227,8 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
 
 })
 
-//Deletar painel
+
+//Rota para deletar painel
 router.get('/paineis/deletar/:id', eAdmin, (req,res)=>{
     Painel.deleteOne({_id: req.params.id}).then(()=>{
         req.flash('success_msg','Painel deletado com sucesso!')

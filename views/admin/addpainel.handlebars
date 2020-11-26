@@ -11,7 +11,8 @@
             <label for="codigo" class="mt-2">Código: </label>
                 <input type="number" id="codigo" required name="codigo" class="form-control">
             <label for="cliente" class="mt-2">Cliente: </label>
-                <select name="cliente" id="" required class="custom-select">
+                <select name="cliente" id="" required class="custom-select">                    
+                    <option value="1">Selecione um cliente...</option>
                     {{#each clientes}}
                     <option value="{{_id}}">{{nome}}</option>
                     {{else}}
