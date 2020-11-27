@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const router = express.Router()
 require('../models/Usuario')
 const Usuario = mongoose.model('usuarios')
+require('../models/Cliente')
+const Cliente = mongoose.model('clientes')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
 
@@ -66,6 +68,62 @@ router.post('/registro', (req,res) => {
                             res.redirect('/usuarios/registro')
                         })
 
+                        //Cadastra clientes modelo para primeiro uso de aplicação
+                        //Os clientes serao cadastrados apenas apos o registro do primeiro usuario
+                        //Em usos convencionais, os clientes seriam cadastrados via formulário
+
+                        //Inserindo dados de cliente no banco, para aparecer no formulario de painel
+                        function cadastrar(){
+                            new Cliente({
+                                nome: "Cliente #1",
+                                cpf: 11120000,
+                                telefone: 055530000,
+                                cidade: "Espírito santo do pinhal",
+                                
+                            }).save().then(()=>{
+                                console.log("Cliente registrado com sucesso!")
+                            }).catch((err)=>{
+                                console.log("Houve um erro ao registrar cliente: "+err)
+                            })
+
+                            new Cliente({
+                                nome: "Cliente #2",
+                                cpf: 11120000,
+                                telefone: 055530000,
+                                cidade: "Espírito santo do pinhal",
+                                
+                            }).save().then(()=>{
+                                console.log("Cliente registrado com sucesso!")
+                            }).catch((err)=>{
+                                console.log("Houve um erro ao registrar cliente: "+err)
+                            })
+
+                            new Cliente({
+                                nome: "Cliente #3",
+                                cpf: 11120000,
+                                telefone: 055530000,
+                                cidade: "Espírito santo do pinhal",
+                                
+                            }).save().then(()=>{
+                                console.log("Cliente registrado com sucesso!")
+                            }).catch((err)=>{
+                                console.log("Houve um erro ao registrar cliente: "+err)
+                            })
+                        }
+
+
+                        Cliente.findOne({nome: "Cliente #1"},(err, cliente)=>{
+                            if(err){
+                                console.log(err)
+                            }
+                            if(cliente){
+                                console.log('Os clientes ja foram cadastrados uma vez!')
+                            }
+                            else{
+                                console.log('Pode cadastrar!')
+                                cadastrar()
+                            }
+                        })
 
                     })
                 })

@@ -246,23 +246,6 @@ router.get('/paineis/deletar/:id', eAdmin, (req,res)=>{
 })
 
 
-//Cadastrar cliente
-router.get('/clientes/novo', eAdmin ,(req,res)=>{
-    //Inserindo dados de cliente no banco, para aparecer no formulario de painel
-    new Cliente({
-        nome: "Pedro",
-        cpf: 11120000,
-        telefone: 055530000,
-        cidade: "Espírito santo do pinhal",
-        
-    }).save().then(()=>{
-        console.log("Cliente registrado com sucesso!")
-    }).catch((err)=>{
-        console.log("Houve um erro ao registrar cliente: "+err)
-    })
-})
-
-
 //Rota para acesar painel específico
 router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
     Painel.findOne({_id: req.params.id}).lean().then((painel)=>{
