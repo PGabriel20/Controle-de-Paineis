@@ -40,7 +40,7 @@ $npm install
 <h4>Execute a aplicação:<h4>
 $npm start
 
-<h4>O servidor inciará na porta: 8001 - acesse <http://localhost:8001></h4>
+<h4>O servidor inciará na porta: 8001 - acesse http://localhost:8001</h4>
 
 <h3>Instruções para uso:</h3>
 Para utilizar o aplicativo corretamente, após tê-lo aberto no navegador, basta criar uma conta e efetuar o login, assim o usuário será redirecionado para a página principal (área de administração).
