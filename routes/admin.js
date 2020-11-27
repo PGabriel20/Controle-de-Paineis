@@ -9,7 +9,7 @@ const {eAdmin} = require('../helpers/eAdmin')
 var format = require('../config/format')
 
 
-//Rotas
+
 //Rota principal
 router.get('/', eAdmin, (req,res)=>{
     res.redirect('admin/paineis')
@@ -23,7 +23,7 @@ router.get('/paineis', eAdmin, (req,res)=>{
     Painel.find().lean().populate('cliente').sort({data: 'desc'}).then((paineis)=>{
         res.render('admin/paineis',{paineis})
     }).catch((err)=>{
-        req.flash("error_msg", "Houve um erro ao carregar paineis!")
+        req.flash("error_msg", "Houve um erro ao carregar os painéis!")
         res.redirect('/admin')
     })
 })
@@ -31,6 +31,7 @@ router.get('/paineis', eAdmin, (req,res)=>{
 
 router.get('/paineis/add', eAdmin, (req,res)=>{
 
+    //Datas
     let datahj = new Date()
     let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
 
@@ -39,7 +40,7 @@ router.get('/paineis/add', eAdmin, (req,res)=>{
     Cliente.find().lean().then((clientes)=>{
         res.render('admin/addpainel',{clientes, formatada, formatadaMes})
     }).catch((err)=>{
-        req.flash("error_msg", "Houve um erro ao carregar o formulario!")
+        req.flash("error_msg", "Houve um erro ao carregar o formulário!")
         res.redirect('/admin')
     })
 })
@@ -52,7 +53,7 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
     var query = req.body.codigo
 
     if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
-        erros.push({texto: "Codigo inválido!"})
+        erros.push({texto: "Código inválido!"})
     }
     if(req.body.cliente == 1){
         erros.push({texto: "Selecione um cliente!"})
@@ -61,13 +62,13 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
         erros.push({texto: "Nenhum cliente cadastrado!"})
     }
     if(!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null){
-        erros.push({texto: "Descrição invalida!"})
+        erros.push({texto: "Descrição inválida!"})
     }
     if(req.body.montador == 0){
         erros.push({texto: "Nenhum montador encontrado!"})
     }
     if(!req.body.num_pedido || typeof req.body.num_pedido == undefined || req.body.num_pedido == null){
-        erros.push({texto: "Numero do pedido inválido!"})
+        erros.push({texto: "Número do pedido inválido!"})
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
         erros.push({texto: "Ordem de compra inválida!"})
@@ -107,11 +108,13 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
                 Cliente.find().lean().then((clientes)=>{
                     erros.push({texto: 'Já existe um painel com este código!'})
                     res.render('admin/addpainel',{clientes, erros, formatada, formatadaMes})
+                }).catch((err)=>{
+                    req.flash('error_msg', "Houve um erro interno!")
+                    res.redirect('/admin/paineis')
                 })                 
             }
             else{
                 
-                console.log('Pode cadastrar')
                 const novoPainel = {
                     codigo: req.body.codigo,
                     cliente: req.body.cliente,
@@ -126,11 +129,9 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
                 }
                 
                 new Painel(novoPainel).save().then(()=>{
-                    console.log('Painel salvo com sucesso!')
                     req.flash('success_msg', "Painel criado com sucesso!")
                     res.redirect('/admin/paineis')
                 }).catch((err)=>{
-                    console.log('Erro ao criar painel!')
                     req.flash('error_msg', "Houve um erro ao criar o Painel! Preencha todos os campos corretamente!")
                     res.redirect('/admin/paineis')
                 })
@@ -151,7 +152,7 @@ router.get('/paineis/edit/:id', eAdmin, (req,res)=>{
             res.redirect('/admin')
         })
     }).catch((err)=>{
-        req.flash('error_msg','Houve um erro ao carregar formulario de edição!')
+        req.flash('error_msg','Houve um erro ao carregar formulário de edição!')
         res.redirect('/admin')
     })
 })
@@ -194,7 +195,7 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
                 res.redirect('/admin')
             })
         }).catch((err)=>{
-            req.flash('error_msg','Houve um erro ao carregar formulario de edição!')
+            req.flash('error_msg','Houve um erro ao carregar formulário de edição!')
             res.redirect('/admin')
         })
         
@@ -215,7 +216,7 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
             painel.observacao= req.body.observacao
     
             painel.save().then(()=>{
-                req.flash('success_msg','Painel salvo co sucesso!')
+                req.flash('success_msg','Painel salvo com sucesso!')
                 res.redirect('/admin/paineis')
             }).catch((err)=>{
                 req.flash('error_msg','Houve um erro ao salvar o formulario, preencha todos os campos corretamente!')
@@ -268,6 +269,9 @@ router.get('/painel/:id/:cliente:nome', eAdmin ,(req,res)=>{
         if(painel){
             Cliente.findOne().lean().then((cliente)=>{
                 res.render('painel/index', {painel, cliente})
+            }).catch((err)=>{
+                req.flash('error_msg', 'Houve um erro interno!')
+                res.redirect('/')
             })
         }
         else{
