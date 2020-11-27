@@ -167,6 +167,7 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
 
     //Validação para formulario de edição
     var erros = []
+    var query = req.body.codigo
 
     if(!req.body.codigo || isNaN(req.body.codigo) || req.body.codigo < 0 || req.body.codigo == null){
         erros.push({texto: "Código inválido!"})
@@ -205,33 +206,60 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
         
     }
     else{
+        
+        
+        Painel.findOne({codigo: query},(err, painel)=>{
+            if(err){
+                console.log(err)
+            }
+            if(painel){
+                let datahj = new Date()
+                let datames = new Date( new Date().getTime()+(30 * 24 * 60 * 60 * 1000))
 
-        Painel.findOne({_id: req.body.id}).then((painel)=>{
+                var formatada = format(datahj, datames)
+
+                Cliente.find().lean().then((clientes)=>{
+                    req.flash('error_msg', "já existe um painel com este código!")
+                    res.redirect('/admin/paineis')
+                }).catch((err)=>{
+                    req.flash('error_msg', "Houve um erro interno!")
+                    res.redirect('/admin/paineis')
+                })
+            }
+            else{
+
+                Painel.findOne({_id: req.body.id}).then((painel)=>{
     
-            painel.codigo = req.body.codigo,
-            painel.cliente = req.body.cliente,
-            painel.descricao = req.body.descricao,
-            painel.montador = req.body.montador,
-            painel.num_pedido = req.body.num_pedido,
-            painel.ordem = req.body.ordem
-            painel.dt_pedido = req.body.dt_pedido
-            painel.dt_previsao = req.body.dt_previsao
-            painel.valor = req.body.valor
-            painel.observacao= req.body.observacao
-    
-            painel.save().then(()=>{
-                req.flash('success_msg','Painel salvo com sucesso!')
-                res.redirect('/admin/paineis')
-            }).catch((err)=>{
-                req.flash('error_msg','Houve um erro ao salvar o formulario, preencha todos os campos corretamente!')
-                res.redirect('/admin/paineis')
-            })
-    
-        }).catch((err)=>{
-            console.log(err)
-            req.flash('error_msg','Houve um erro ao salvar o painel!')
-            res.redirect('/admin/paineis')
+                    painel.codigo = req.body.codigo,
+                    painel.cliente = req.body.cliente,
+                    painel.descricao = req.body.descricao,
+                    painel.montador = req.body.montador,
+                    painel.num_pedido = req.body.num_pedido,
+                    painel.ordem = req.body.ordem
+                    painel.dt_pedido = req.body.dt_pedido
+                    painel.dt_previsao = req.body.dt_previsao
+                    painel.valor = req.body.valor
+                    painel.observacao= req.body.observacao
+            
+                    painel.save().then(()=>{
+                        req.flash('success_msg','Painel salvo com sucesso!')
+                        res.redirect('/admin/paineis')
+                    }).catch((err)=>{
+                        req.flash('error_msg','Houve um erro ao salvar o formulario, preencha todos os campos corretamente!')
+                        res.redirect('/admin/paineis')
+                    })
+            
+                }).catch((err)=>{
+                    console.log(err)
+                    req.flash('error_msg','Houve um erro ao salvar o painel!')
+                    res.redirect('/admin/paineis')
+                })
+
+            }
         })
+
+        
+        
 
     }
 
