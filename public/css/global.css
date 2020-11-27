@@ -65,6 +65,14 @@
     margin-right: 55px;
 }
 
+.detalhes{
+    position: absolute;
+    right: 170px;
+}
+.detalhes2{
+    position: absolute;
+    right: 220px;
+}
 
 .deletar{
     position: absolute;

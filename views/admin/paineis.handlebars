@@ -6,7 +6,8 @@
         <li><h6>Cliente</h6></li>
         <li><h6>Montador</h6></li>
         <li><h6>Ordem do pedido</h6></li>
-        <li><h6>Descrição do painel</h6></li>
+        <li><h6>Descrição</h6></li>
+        <li class="detalhes"><h6>Detalhes</h6></li>
         <li class="editar"><h6>Editar</h6></li>
         <li class="deletar"><h6>Deletar</h6></li>
     </div>
@@ -24,6 +25,7 @@
             <div class="desc">
                 <p>{{descricao}}</p>
             </div>
+            <a href="/admin/painel/{{_id}}/{{cliente.nome}}" class="detalhes2"><img src="../detail2.png" alt="imagem"></a>
             <a href="/admin/paineis/edit/{{_id}}" class="editar2"><img src="../edit3.png" alt="imagem"></a>
             <a href="/admin/paineis/deletar/{{_id}}" onclick="return confirm('Você tem certeza de que quer deletar este painel?');" class="deletar"><img src="../delete3.png" alt="imagem"></a>
             {{!-- <a href="#" class="openModal deletar"><img src="../delete3.png" alt="imagem"></a> --}}

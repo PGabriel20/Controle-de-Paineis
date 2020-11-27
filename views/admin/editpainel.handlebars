@@ -17,7 +17,7 @@
             <label for="montador" style="margin-left: 274px" class="mt-2">Montador: </label><br>
 
             
-            <input type="number" id="codigo" name="codigo"  value="{{painel.codigo}}" class="codigo linha1 form-control">
+            <input type="number" id="codigo" name="codigo" required value="{{painel.codigo}}" class="codigo linha1 form-control">
             <select name="cliente" id="" required class="cliente linha1 custom-select">
                 {{#each clientes}}
                 <option value="{{_id}}">{{nome}}</option>
