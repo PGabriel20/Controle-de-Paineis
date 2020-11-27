@@ -51,8 +51,12 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
     //Validação de formulario de registro de paineis
     var erros = []
     var query = req.body.codigo
+    var testar=(req.body.codigo, req.body.valor, req.body.num_pedido)
 
-    if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
+    if(isNaN(testar) || testar<0){
+         console.log("Valores devem ser numéricos!")
+    }
+    if(!req.body.codigo || isNaN(req.body.codigo) || req.body.codigo < 0 || req.body.codigo == null){
         erros.push({texto: "Código inválido!"})
     }
     if(req.body.cliente == 1){
@@ -67,13 +71,13 @@ router.post('/paineis/novo', eAdmin, (req,res)=>{
     if(req.body.montador == 0){
         erros.push({texto: "Nenhum montador encontrado!"})
     }
-    if(!req.body.num_pedido || typeof req.body.num_pedido == undefined || req.body.num_pedido == null){
+    if(!req.body.num_pedido || isNaN(req.body.num_pedido) || req.body.num_pedido < 0 || req.body.num_pedido == null){
         erros.push({texto: "Número do pedido inválido!"})
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
         erros.push({texto: "Ordem de compra inválida!"})
     }
-    if(!req.body.valor || typeof req.body.valor == undefined || req.body.valor == null){
+    if(!req.body.valor || isNaN(req.body.valor) || req.body.valor < 0 || req.body.valor == null){
         erros.push({texto: "Valor inválido!"})
     }
     if(!req.body.dt_pedido || typeof req.body.dt_pedido == undefined || req.body.dt_pedido == null){
@@ -164,19 +168,19 @@ router.post('/paineis/edit', eAdmin, (req,res)=>{
     //Validação para formulario de edição
     var erros = []
 
-    if(!req.body.codigo || typeof req.body.codigo == undefined || req.body.codigo == null){
+    if(!req.body.codigo || isNaN(req.body.codigo) || req.body.codigo < 0 || req.body.codigo == null){
         erros.push({texto: "Código inválido!"})
     }
     if(!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null){
         erros.push({texto: "Descrição inválida!"})
     }
-    if(!req.body.num_pedido || typeof req.body.num_pedido == undefined || req.body.num_pedido == null){
+    if(!req.body.num_pedido || isNaN(req.body.num_pedido) || req.body.num_pedido < 0 || req.body.num_pedido == null){
         erros.push({texto: "Número do pedido inválido!"})
     }
     if(!req.body.ordem || typeof req.body.ordem == undefined || req.body.ordem == null){
         erros.push({texto: "Ordem de pedido inválida!"})
     }
-    if(!req.body.valor || typeof req.body.valor == undefined || req.body.valor == null){
+    if(!req.body.valor || isNaN(req.body.valor) || req.body.valor < 0 || req.body.valor == null){
         erros.push({texto: "Valor inválido!"})
     }
     if(!req.body.dt_pedido || typeof req.body.dt_pedido == undefined || req.body.dt_pedido == null){
