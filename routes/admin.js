@@ -29,6 +29,8 @@ router.get('/paineis', eAdmin, (req,res)=>{
 })
 
 
+
+//Redireciona para pagina de registro de paineis
 router.get('/paineis/add', eAdmin, (req,res)=>{
 
     //Datas
